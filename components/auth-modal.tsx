@@ -251,7 +251,7 @@ export function AuthModal({
               disabled={loading}
               className="w-full text-sm"
             >
-              Didn't receive the code? Resend
+              Didn&apos;t receive the code? Resend
             </Button>
           </form>
         )}

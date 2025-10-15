@@ -529,7 +529,7 @@ export function TimelineGraph({ taskPlan, tasks }: TimelineGraphProps) {
             <div className="flex items-center gap-2">
               <div className="w-0.5 h-4 bg-blue-500" />
               <span className="text-xs text-slate-600 dark:text-slate-400">
-                Today's date
+                Today&apos;s date
               </span>
             </div>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import {
   Card,
@@ -35,27 +35,7 @@ export function TaskHistory() {
   const [authError, setAuthError] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    // Check if user has auth cookie even if user state not loaded yet
-    const hasAuthCookie = document.cookie.includes("auth-token=");
-
-    console.log("TaskHistory - Auth Check:", {
-      hasUser: !!user,
-      hasAuthCookie,
-      authLoading,
-    });
-
-    // Fetch history if user exists OR auth cookie exists (cookie-based auth)
-    if (user || hasAuthCookie) {
-      fetchTaskHistory();
-    } else if (!authLoading) {
-      // Only show error if auth is done loading and no auth found
-      setAuthError(true);
-      setLoading(false);
-    }
-  }, [user, authLoading]);
-
-  const fetchTaskHistory = async () => {
+  const fetchTaskHistory = useCallback(async () => {
     setLoading(true);
     setAuthError(false);
 
@@ -85,7 +65,27 @@ export function TaskHistory() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    // Check if user has auth cookie even if user state not loaded yet
+    const hasAuthCookie = document.cookie.includes("auth-token=");
+
+    console.log("TaskHistory - Auth Check:", {
+      hasUser: !!user,
+      hasAuthCookie,
+      authLoading,
+    });
+
+    // Fetch history if user exists OR auth cookie exists (cookie-based auth)
+    if (user || hasAuthCookie) {
+      fetchTaskHistory();
+    } else if (!authLoading) {
+      // Only show error if auth is done loading and no auth found
+      setAuthError(true);
+      setLoading(false);
+    }
+  }, [user, authLoading, fetchTaskHistory]);
 
   const toggleExpand = (taskId: string) => {
     const newExpanded = new Set(expandedTasks);

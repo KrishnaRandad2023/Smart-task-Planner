@@ -115,6 +115,7 @@ export function GeneratingAnimation({
       clearInterval(stepInterval);
       clearInterval(factInterval);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estimatedDuration]);
 
   const CurrentIcon = steps[currentStep].icon;
